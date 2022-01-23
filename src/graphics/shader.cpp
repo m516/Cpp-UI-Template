@@ -101,12 +101,8 @@ void Graphics::Shaders::AbstractShader::_loadShaders(){
 	_programID = Load(vPath.c_str(), fPath.c_str());
 }
 
-void Graphics::Shaders::AbstractShader::init(){
-	//Do nothing...yet
-}
 
 void Graphics::Shaders::AbstractShader::apply(){
 	
-    printf("Shader applied\n");
 	glUseProgram(_programID);
 }

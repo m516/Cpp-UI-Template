@@ -18,6 +18,7 @@ using namespace std;
 
 GLFWwindow* window;
 
+
 /**
  * A helper function for terminating the program
  */
@@ -81,7 +82,7 @@ void setStyle(){
   colors[ImGuiCol_TabUnfocused]           = ImVec4(0.00f, 0.00f, 0.00f, 0.52f);
   colors[ImGuiCol_TabUnfocusedActive]     = ImVec4(0.14f, 0.14f, 0.14f, 1.00f);
   colors[ImGuiCol_DockingPreview]         = ImVec4(0.33f, 0.67f, 0.86f, 1.00f);
-  colors[ImGuiCol_DockingEmptyBg]         = ImVec4(1.00f, 0.00f, 0.00f, 1.00f);
+  colors[ImGuiCol_DockingEmptyBg]         = ImVec4(1.00f, 0.00f, 0.00f, 0.50f);
   colors[ImGuiCol_PlotLines]              = ImVec4(1.00f, 0.00f, 0.00f, 1.00f);
   colors[ImGuiCol_PlotLinesHovered]       = ImVec4(1.00f, 0.00f, 0.00f, 1.00f);
   colors[ImGuiCol_PlotHistogram]          = ImVec4(1.00f, 0.00f, 0.00f, 1.00f);
@@ -221,16 +222,14 @@ int main()
 	// Our state
     bool show_demo_window = false;
     bool show_another_window = false;
-    ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+    ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 0.00f);
 
     // Background
     int display_w, display_h;
     glfwGetFramebufferSize(window, &display_w, &display_h);
     printf("%d %d\n", display_w, display_h);
-    Graphics::Shaders::Passthrough passthroughShader;
-    passthroughShader.init();
-    printf("Loaded\n");
-    Graphics::Background background(display_w, display_h, passthroughShader);
+    Graphics::Background background(display_w, display_h);
+    bool fullscreenbkg = true;
 
     // Main loop
     while (!glfwWindowShouldClose(window))
@@ -256,19 +255,38 @@ int main()
             ImGui::SetNextWindowDockID(dockspace_id, ImGuiCond_Always);
             ImGui::ShowDemoWindow(&show_demo_window);
         }
+        else {
+            if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS){
+                show_demo_window = true;
+            }
+        }
+
+        static bool showOverlayWindow = true;
+        if(showOverlayWindow){
+            ImGui::SetNextWindowDockID(dockspace_id, ImGuiCond_Always);
+            ImGui::Begin("Overlay", &showOverlayWindow);
+            if(ImGui::Button("Overlay")){
+                fullscreenbkg = true;
+            }
+            ImGui::End();
+        }
+
+
 
         // Rendering
         ImGui::Render();
         glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
-        glViewport(0, 0, display_w, display_h);
-        background.draw();
-
-
-
-        //ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        if(fullscreenbkg){
+            ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouse;
+            background.draw();
+            if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) fullscreenbkg = false;
+        }
+        else{
+            ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
+            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        }
     	
         // Update and Render additional Platform Windows
         // (Platform functions may change the current OpenGL context, so we save/restore it to make it easier to paste this code elsewhere.

@@ -17,8 +17,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 
-
-class Renderer;
 namespace Graphics{
 namespace Shaders{
 
@@ -26,18 +24,37 @@ namespace Shaders{
 
     class AbstractShader{
         public:
+
+        AbstractShader(const std::string &vertexShader, const std::string &fragmentShader) : _vertexShaderFilename(vertexShader), _fragmentShaderFilename(fragmentShader){
+            _loadShaders();
+        }
+
+
         virtual ~AbstractShader(){}
         /**
          * @brief Apply the shader. Run at the beginning of every draw call.
          * Only call in the Renderer class.
          */
         virtual void apply();
-        /**
-         * @brief Create the shader. Run once before the first draw call.
-         * Only call in the Renderer class.
-         */
-        virtual void init();
-        Renderer *_renderer;
+
+        // utility uniform functions
+        // ------------------------------------------------------------------------
+        void setBool(const std::string &name, bool value) const
+        {         
+            glUniform1i(glGetUniformLocation(_programID, name.c_str()), (int)value); 
+        }
+        // ------------------------------------------------------------------------
+        void setInt(const std::string &name, int value) const
+        { 
+            glUniform1i(glGetUniformLocation(_programID, name.c_str()), value); 
+        }
+        // ------------------------------------------------------------------------
+        void setFloat(const std::string &name, float value) const
+        { 
+            glUniform1f(glGetUniformLocation(_programID, name.c_str()), value); 
+        }
+
+
         protected:
         GLuint _programID;
         std::string _vertexShaderFilename;
@@ -48,15 +65,6 @@ namespace Shaders{
          * 
          */
         void _loadShaders();
-    };
-
-    class Passthrough : public AbstractShader{
-        public:
-        virtual void init(){
-            _vertexShaderFilename = "shaders/passthrough.vert";
-            _fragmentShaderFilename = "shaders/passthrough.frag";
-            _loadShaders();
-        }
     };
 }
 }
