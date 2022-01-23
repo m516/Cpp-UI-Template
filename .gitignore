@@ -1,0 +1,25 @@
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps
+
+
+# Visual Studio
+build/
+out/
+.vs/
+.vscode/
+bin/
+
+*.vcxproj
+*.vcxproj.filters
+JACT.sln
+*.ini
+.cache/
