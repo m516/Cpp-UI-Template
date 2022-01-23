@@ -12,6 +12,8 @@
 
 #include <thread>
 
+#include "graphics/background.hpp"
+
 using namespace std;
 
 GLFWwindow* window;
@@ -163,7 +165,7 @@ int main()
 	glfwSetErrorCallback(error_callback);
 
 	//GLFW creates a window and its OpenGL context with the next function
-	window = glfwCreateWindow(800, 480, "Hello window :)", NULL, NULL);
+	window = glfwCreateWindow(800, 480, "panogui", glfwGetPrimaryMonitor(), NULL);
 
 	//Check for errors (which would happen if creating a window fails
 	if (!window)
@@ -217,9 +219,18 @@ int main()
     ImGui_ImplOpenGL3_Init(glsl_version);
 
 	// Our state
-    bool show_demo_window = true;
+    bool show_demo_window = false;
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
+    // Background
+    int display_w, display_h;
+    glfwGetFramebufferSize(window, &display_w, &display_h);
+    printf("%d %d\n", display_w, display_h);
+    Graphics::Shaders::Passthrough passthroughShader;
+    passthroughShader.init();
+    printf("Loaded\n");
+    Graphics::Background background(display_w, display_h, passthroughShader);
 
     // Main loop
     while (!glfwWindowShouldClose(window))
@@ -230,6 +241,7 @@ int main()
         // - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application.
         // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
         glfwPollEvents();
+        //glfwWaitEvents(); // More efficient
 
         // Start the Dear ImGui frame
         ImGui_ImplOpenGL3_NewFrame();
@@ -247,12 +259,16 @@ int main()
 
         // Rendering
         ImGui::Render();
-        int display_w, display_h;
-        glfwGetFramebufferSize(window, &display_w, &display_h);
-        glViewport(0, 0, display_w, display_h);
         glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
         glClear(GL_COLOR_BUFFER_BIT);
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+
+        glViewport(0, 0, display_w, display_h);
+        background.draw();
+
+
+
+        //ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     	
         // Update and Render additional Platform Windows
         // (Platform functions may change the current OpenGL context, so we save/restore it to make it easier to paste this code elsewhere.

@@ -11,6 +11,8 @@ set(EXECUTABLE_NAME JACT)
 # Delete the ./ at the beginning of each file with block selection (alt + shift in Visual Studio)
 set(PROJECT_SOURCES
 "main/main.cpp"
+"graphics/shader.cpp"
+"graphics/background.cpp"
 )
 
 # In UNIX, set PROJECT_HEADERS using the following command
@@ -18,6 +20,8 @@ set(PROJECT_SOURCES
 # Delete the ./ at the beginning of each file with block selection (alt + shift in Visual Studio)
 set(PROJECT_HEADERS
 "main/main.hpp"
+"graphics/shader.hpp"
+"graphics/background.hpp"
 )
 
 # Add source to this project's executable.
