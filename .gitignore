@@ -27,3 +27,12 @@ JACT.sln
 # Shaders (for now because I'm mostly using others' shaders)
 shaders/
 src/shaders
+
+DartConfiguration.tcl
+src/JACT
+thirdparty/glad/libglad.a
+thirdparty/imgui/libimgui.a
+lib/libgmock_main.a
+lib/libgmock.a
+lib/libgtest_main.a
+lib/libgtest.a

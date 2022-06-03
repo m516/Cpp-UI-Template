@@ -53,6 +53,10 @@ namespace Shaders{
         { 
             glUniform1f(glGetUniformLocation(_programID, name.c_str()), value); 
         }
+        // ------------------------------------------------------------------------
+        void setVec2(const std::string &name, float val1, float val2) const {
+            glUniform2f(glGetUniformLocation(_programID, name.c_str()), val1, val2); 
+        }
 
 
         protected:

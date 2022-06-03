@@ -5,10 +5,10 @@ namespace Graphics{
 
     class Background{
         public:
-        Background(float width, float height):
+        Background(float width, float height, const std::string &fragmentShader = "shaders/color.frag"):
         _width(width), 
         _height(height), 
-        _shader(Graphics::Shaders::AbstractShader( "shaders/passthrough.vert", "shaders/spectrumbeam.frag"))
+        _shader(Graphics::Shaders::AbstractShader( "shaders/passthrough.vert", fragmentShader))
         {
 
             glGenVertexArrays(1, &vertexArrayObject);
@@ -29,10 +29,12 @@ namespace Graphics{
             glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
             glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
             printf("Background initialized to %f %f\n", width, height);
+
         }
         void draw(){
             _shader.apply();
-            _shader.setFloat("iTime", glfwGetTime());
+            _shader.setFloat("iTime", glfwGetTime()*2);
+            _shader.setVec2("iResolution", _width, _height);
 
 
             glBindVertexArray(vertexArrayObject);

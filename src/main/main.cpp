@@ -166,7 +166,7 @@ int main()
 	glfwSetErrorCallback(error_callback);
 
 	//GLFW creates a window and its OpenGL context with the next function
-	window = glfwCreateWindow(800, 480, "panogui", glfwGetPrimaryMonitor(), NULL);
+	window = glfwCreateWindow(1024, 600, "panogui", glfwGetPrimaryMonitor(), NULL);
 
 	//Check for errors (which would happen if creating a window fails
 	if (!window)
@@ -220,16 +220,18 @@ int main()
     ImGui_ImplOpenGL3_Init(glsl_version);
 
 	// Our state
-    bool show_demo_window = false;
-    bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 0.00f);
 
     // Background
     int display_w, display_h;
     glfwGetFramebufferSize(window, &display_w, &display_h);
     printf("%d %d\n", display_w, display_h);
-    Graphics::Background background(display_w, display_h);
-    bool fullscreenbkg = true;
+    Graphics::Background backgrounds[] = {
+        Graphics::Background(display_w, display_h, "shaders/color.frag"),
+        Graphics::Background(display_w, display_h, "shaders/jelly.frag"),
+        Graphics::Background(display_w, display_h, "shaders/spectrumbeam.frag"),
+        };
+    int fullscreenbkg = -1;
 
     // Main loop
     while (!glfwWindowShouldClose(window))
@@ -246,30 +248,20 @@ int main()
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
-
+        ImGui::SetMouseCursor(ImGuiMouseCursor_None);
         
         ImGuiID dockspace_id = ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 
         // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-        if (show_demo_window){
-            ImGui::SetNextWindowDockID(dockspace_id, ImGuiCond_Always);
-            ImGui::ShowDemoWindow(&show_demo_window);
-        }
-        else {
-            if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS){
-                show_demo_window = true;
-            }
-        }
+        ImGui::SetNextWindowDockID(dockspace_id, ImGuiCond_Always);
+        ImGui::ShowDemoWindow(NULL);
 
-        static bool showOverlayWindow = true;
-        if(showOverlayWindow){
-            ImGui::SetNextWindowDockID(dockspace_id, ImGuiCond_Always);
-            ImGui::Begin("Overlay", &showOverlayWindow);
-            if(ImGui::Button("Overlay")){
-                fullscreenbkg = true;
-            }
-            ImGui::End();
-        }
+        ImGui::SetNextWindowDockID(dockspace_id, ImGuiCond_Always);
+        ImGui::Begin("Overlay", NULL);
+        if(ImGui::Button("Shader 0: color")){ fullscreenbkg = 0; }
+        if(ImGui::Button("Shader 1: jelly")){ fullscreenbkg = 1; }
+        if(ImGui::Button("Shader 2: waves")){ fullscreenbkg = 2; }
+        ImGui::End();
 
 
 
@@ -278,10 +270,12 @@ int main()
         glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        if(fullscreenbkg){
+        if(fullscreenbkg>=0){
             ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouse;
-            background.draw();
-            if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) fullscreenbkg = false;
+            if(fullscreenbkg>=0){
+                backgrounds[fullscreenbkg].draw();
+            }
+            if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) fullscreenbkg = -1;
         }
         else{
             ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
