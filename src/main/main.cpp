@@ -227,9 +227,7 @@ int main()
     glfwGetFramebufferSize(window, &display_w, &display_h);
     printf("%d %d\n", display_w, display_h);
     Graphics::Background backgrounds[] = {
-        Graphics::Background(display_w, display_h, "shaders/color.frag"),
-        Graphics::Background(display_w, display_h, "shaders/jelly.frag"),
-        Graphics::Background(display_w, display_h, "shaders/spectrumbeam.frag"),
+        Graphics::Background(display_w, display_h, "shaders/Topologica.frag"),
         };
     int fullscreenbkg = -1;
 
@@ -258,9 +256,7 @@ int main()
 
         ImGui::SetNextWindowDockID(dockspace_id, ImGuiCond_Always);
         ImGui::Begin("Overlay", NULL);
-        if(ImGui::Button("Shader 0: color")){ fullscreenbkg = 0; }
-        if(ImGui::Button("Shader 1: jelly")){ fullscreenbkg = 1; }
-        if(ImGui::Button("Shader 2: waves")){ fullscreenbkg = 2; }
+        if(ImGui::Button("Shader 0: Topologica")){ fullscreenbkg = 0; }
         ImGui::End();
 
 

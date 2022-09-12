@@ -24,10 +24,6 @@ JACT.sln
 *.ini
 .cache/
 
-# Shaders (for now because I'm mostly using others' shaders)
-shaders/
-src/shaders
-
 DartConfiguration.tcl
 src/JACT
 thirdparty/glad/libglad.a

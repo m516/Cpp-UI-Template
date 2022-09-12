@@ -89,6 +89,7 @@ GLuint Graphics::Shaders::Load(const char * vertex_file_path,const char * fragme
 
 std::string Graphics::Shaders::AbstractShader::_genShaderPath(const std::string &shaderFileName){
     // Get an image name 
+	// TODO stub. Save assets in some local directory
     std::string filename = "";
     filename += shaderFileName;
     return filename;
