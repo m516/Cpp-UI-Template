@@ -13,19 +13,30 @@ set(PROJECT_SOURCES
 "main/main.cpp"
 "graphics/shader.cpp"
 "graphics/background.cpp"
+"ui/ui_implementation.cpp"
+"ui/app.cpp"
 )
 
 # In UNIX, set PROJECT_HEADERS using the following command
-# find . | grep .h
+# find . | grep .hpp
 # Delete the ./ at the beginning of each file with block selection (alt + shift in Visual Studio)
-set(PROJECT_HEADERS
-"main/main.hpp"
-"graphics/shader.hpp"
-"graphics/background.hpp"
-)
+
+
+# set(PROJECT_HEADERS
+# "apps/ImGui_Demo/app.hpp"
+# "graphics"
+# "graphics/shader.cpp"
+# "graphics/background.hpp"
+# "graphics/background.cpp"
+# "graphics/shader.hpp"
+# "main/main.hpp"
+# "ui/ui.hpp"
+# "ui/app.hpp"
+# )
 
 # Add source to this project's executable.
 add_executable (${EXECUTABLE_NAME} ${PROJECT_SOURCES} ${PROJECT_HEADERS})
 
 # Add tests and install targets if needed.
 target_link_libraries (${EXECUTABLE_NAME} glad glm glfw imgui) 
+target_include_directories(${EXECUTABLE_NAME} PRIVATE src)
