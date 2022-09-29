@@ -5,7 +5,7 @@
 ![stars](https://img.shields.io/github/stars/m516/Cpp-UI-Template)
 ![license](https://img.shields.io/github/license/m516/Cpp-UI-Template)
 
-A highly unstable framework for making snappy, interactive user interfaces with OpenGL 3+. 
+A framework for making snappy, interactive user interfaces with OpenGL 3+. 
 
 ![Demonstration on Ubuntu WSL2](assets/docs/Screenshot-Ubuntu-WSL2.jpg)
 
