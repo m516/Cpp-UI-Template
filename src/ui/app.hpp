@@ -20,6 +20,8 @@ namespace app{
         // Called by the UI once every frame. Use ImGUI windows and widgets here. 
         virtual void uiDraw(){};
 
+        protected:
+        void imguiScrollWhenDraggingOnVoid();
 
         private:
         // This window ID
