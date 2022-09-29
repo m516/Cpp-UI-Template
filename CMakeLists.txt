@@ -69,6 +69,10 @@ else()
     message("${BoldRed}Threads library was disabled.${ColorReset}")
 endif()
 
+# OpenCV
+message("${BoldYellow}Finding OpenCV${ColorReset}")
+find_package(OpenCV)
+include_directories(${OpenCV_INCLUDE_DIRS})
 
 # glad
 message("${BoldYellow}Using local copy of GLAD${ColorReset}")
