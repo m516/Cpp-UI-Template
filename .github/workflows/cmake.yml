@@ -49,12 +49,9 @@ jobs:
       with:
         submodules: recursive 
         
-    - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1.0.2
-        
     - name: Install OpenCV
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: vcpkg install opencv
+      run: vcpkg install opencv:x86-windows
       
     - name: Register vcpkg packages
       working-directory: ${{env.GITHUB_WORKSPACE}}
