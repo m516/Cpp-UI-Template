@@ -51,6 +51,7 @@ jobs:
     - name: Install Dependenices
       run: |
         vcpkg install opencv
+        vcpkg integrate install
     - name: Configure CMake
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
     - name: Build
