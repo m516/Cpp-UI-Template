@@ -1,0 +1,36 @@
+name: CMake Build (Windows-latest)
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+
+jobs:      
+  build-on-windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: recursive 
+        
+    - uses: Dovyski/setup-opencv-action@v1.1
+      with:
+        opencv-version: '4.0.0'
+
+    - name: Configure CMake
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: cmake -B ${{github.workspace}}/build
+      
+    - name: Build
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+      
+    - name: Test
+      working-directory: ${{github.workspace}}/build
+      run: ctest -C ${{env.BUILD_TYPE}}
+

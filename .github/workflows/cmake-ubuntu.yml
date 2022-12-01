@@ -1,4 +1,4 @@
-name: CMake Build (Ubuntu-latest, Windows-latest)
+name: CMake Build (Ubuntu-latest)
 
 on:
   push:
@@ -42,30 +42,3 @@ jobs:
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest -C ${{env.BUILD_TYPE}}
       
-  build-on-windows: # Same as above, only using vcpkg and Windows for missing dependencies
-    runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        submodules: recursive 
-        
-    - name: Install OpenCV
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: vcpkg install opencv:x86-windows
-      
-    - name: Register vcpkg packages
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: vcpkg integrate install
-
-    - name: Configure CMake
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
-      
-    - name: Build
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
-      
-    - name: Test
-      working-directory: ${{github.workspace}}/build
-      run: ctest -C ${{env.BUILD_TYPE}}
-

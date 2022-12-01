@@ -1,5 +1,6 @@
 # C++ UI Template
-![CMake build](https://github.com/m516/Cpp-UI-Template/actions/workflows/cmake.yml/badge.svg)
+![CMake build (Ubuntu)](https://github.com/m516/Cpp-UI-Template/actions/workflows/cmake-ubuntu.yml/badge.svg)
+![CMake build (Windows)](https://github.com/m516/Cpp-UI-Template/actions/workflows/cmake-windows.yml/badge.svg)
 ![issues](https://img.shields.io/github/issues/m516/Cpp-UI-Template)
 ![forks](https://img.shields.io/github/forks/m516/Cpp-UI-Template)
 ![stars](https://img.shields.io/github/stars/m516/Cpp-UI-Template)
