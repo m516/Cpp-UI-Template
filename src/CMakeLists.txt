@@ -29,5 +29,5 @@ set(PROJECT_SOURCES
 add_executable (${EXECUTABLE_NAME} ${PROJECT_SOURCES})
 
 # Add tests and install targets if needed.
-target_link_libraries (${EXECUTABLE_NAME} glad glm glfw imgui ${OpenCV_LIBS}) 
+target_link_libraries (${EXECUTABLE_NAME} glad glm glfw imgui) 
 target_include_directories(${EXECUTABLE_NAME} PUBLIC src)
