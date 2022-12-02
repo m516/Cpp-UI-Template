@@ -12,7 +12,7 @@ A framework for making snappy, interactive, touch-friendly user interfaces with 
 
 ## ❗Before you start❗
 * This template is a work in progress, and features may be added or changed any time. 
-* Example apps and utilities that depend on OpenCV are available and maintained in the [with-opencv](https://github.com/m516/Cpp-UI-Template/tree/with-opencv) branch. In this branch, CMake is configured to search for OpenCV, but that library isn't used beyond configuration.
+* Example apps and utilities that depend on OpenCV are available and maintained in the [with-opencv](https://github.com/m516/Cpp-UI-Template/tree/with-opencv) branch. In the `master` branch, CMake is configured to search for OpenCV, but that library isn't used beyond configuration.
 
 # Contents
 - [C++ UI Template](#c-ui-template)
