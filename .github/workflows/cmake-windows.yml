@@ -21,39 +21,40 @@ jobs:
     - name: Get cmake
       uses: lukka/get-cmake@latest
 
-    - name: Restore vcpkg and its artifacts.
-      uses: actions/cache@v2
-      id: vcpkg-cache
-      with:
-        path: |
-          ${{ env.VCPKG_ROOT }}
-          ${{ github.workspace }}/build/vcpkg_installed
-          !${{ env.VCPKG_ROOT }}/.git
-          !${{ env.VCPKG_ROOT }}/buildtrees
-          !${{ env.VCPKG_ROOT }}/packages
-          !${{ env.VCPKG_ROOT }}/downloads
-        key: |
-          ${{ hashFiles( 'vcpkg.json' ) }}-cache-key-v1
+    # - name: Restore vcpkg and its artifacts.
+    #   uses: actions/cache@v2
+    #   id: vcpkg-cache
+    #   with:
+    #     path: |
+    #       ${{ env.VCPKG_ROOT }}
+    #       ${{ github.workspace }}/build/vcpkg_installed
+    #       !${{ env.VCPKG_ROOT }}/.git
+    #       !${{ env.VCPKG_ROOT }}/buildtrees
+    #       !${{ env.VCPKG_ROOT }}/packages
+    #       !${{ env.VCPKG_ROOT }}/downloads
+    #     key: |
+    #       ${{ hashFiles( 'vcpkg.json' ) }}-cache-key-v1
           
-    - name: Get vcpkg(windows)
-      if: ${{ steps.vcpkg-cache.outputs.cache-hit != 'true' }}
-      run: |
-        cd ${{ github.workspace }}
-        mkdir build -force
-        git clone https://github.com/Microsoft/vcpkg.git
-        cd vcpkg
-        .\bootstrap-vcpkg.bat
+    # - name: Get vcpkg(windows)
+    #   if: ${{ steps.vcpkg-cache.outputs.cache-hit != 'true' }}
+    #   run: |
+    #     cd ${{ github.workspace }}
+    #     mkdir build -force
+    #     git clone https://github.com/Microsoft/vcpkg.git
+    #     cd vcpkg
+    #     .\bootstrap-vcpkg.bat
     
-    - name: install opencv
-      if: ${{ steps.vcpkg-cache.outputs.cache-hit != 'true' }}
-      run: |
-        cd ${{ github.workspace }}
-        vcpkg install opencv:x64-windows
-        vcpkg integrate install
+    # - name: install opencv
+    #   if: ${{ steps.vcpkg-cache.outputs.cache-hit != 'true' }}
+    #   run: |
+    #     cd ${{ github.workspace }}
+    #     vcpkg install opencv:x64-windows
+    #     vcpkg integrate install
 
     - name: Configure CMake
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake
+      run: cmake -B ${{github.workspace}}/build  # Without OpenCV
+      # run: cmake -B ${{github.workspace}}/build -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake
       
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
