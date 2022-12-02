@@ -49,6 +49,7 @@ jobs:
       run: |
         cd ${{ github.workspace }}
         vcpkg install opencv:x64-windows
+        vcpkg integrate install
 
     - name: Configure CMake
       working-directory: ${{env.GITHUB_WORKSPACE}}
