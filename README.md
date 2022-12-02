@@ -2,14 +2,17 @@
 [![CMake build (Ubuntu)](https://github.com/m516/Cpp-UI-Template/actions/workflows/cmake-ubuntu.yml/badge.svg)](https://github.com/m516/Cpp-UI-Template/actions/workflows/cmake-ubuntu.yml)
 [![CMake build (Windows)](https://github.com/m516/Cpp-UI-Template/actions/workflows/cmake-windows.yml/badge.svg)](https://github.com/m516/Cpp-UI-Template/actions/workflows/cmake-windows.yml)
 [![issues](https://img.shields.io/github/issues/m516/Cpp-UI-Template)](https://github.com/m516/Cpp-UI-Template/issues)
-[[![forks](https://img.shields.io/github/forks/m516/Cpp-UI-Template)](https://github.com/m516/Cpp-UI-Template/network/members)
-[[![stars](https://img.shields.io/github/stars/m516/Cpp-UI-Template)](https://github.com/m516/Cpp-UI-Template/graphs/traffic)
-[[![license](https://img.shields.io/github/license/m516/Cpp-UI-Template)](https://github.com/m516/Cpp-UI-Template/blob/master/LICENSE)
+[![forks](https://img.shields.io/github/forks/m516/Cpp-UI-Template)](https://github.com/m516/Cpp-UI-Template/network/members)
+[![stars](https://img.shields.io/github/stars/m516/Cpp-UI-Template)](https://github.com/m516/Cpp-UI-Template/graphs/traffic)
+[![license](https://img.shields.io/github/license/m516/Cpp-UI-Template)](https://github.com/m516/Cpp-UI-Template/blob/master/LICENSE)
 
 A framework for making snappy, interactive, touch-friendly user interfaces with OpenGL 3+. 
 
 ![Demonstration on Ubuntu WSL2](assets/docs/Screenshot-Ubuntu-WSL2.jpg)
 
+## ❗Before you start❗
+* This template is a work in progress, and features may be added or changed any time. 
+* Example apps and utilities that depend on OpenCV are available and maintained in the [with-opencv](https://github.com/m516/Cpp-UI-Template/tree/with-opencv) branch. In this branch, CMake is configured to search for OpenCV, but that library isn't used beyond configuration.
 
 # Contents
 - [C++ UI Template](#c-ui-template)
