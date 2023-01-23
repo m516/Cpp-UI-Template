@@ -4,6 +4,7 @@
 #include <mutex>
 #include <iostream>
 #include <condition_variable>
+#include <exception>
 
 namespace Pipeline
 {
@@ -32,7 +33,8 @@ class Process{
     }
 
     ~Process(){
-        _keep_going = false;
+        stopProcessingContinually();
+        if(_thread != nullptr) delete _thread;
     }
 
 
@@ -54,11 +56,11 @@ class Process{
                 std::unique_lock<std::mutex> lock_in(*_input_mutex);
                 _cv_in->wait(lock_in);
                 // Process it
-                processOnce();
+                processOnce_s();
                 lock_in.unlock();
             }
             else{
-                processOnce();
+                processOnce_s();
             } // End if
             // Let the next processs in the pipeline use it
             _cv_out.notify_all();
@@ -68,14 +70,18 @@ class Process{
     } // End processContinually
 
     void startProcessingContinuallyInNewThread(){
+        if(_thread != nullptr) delete _thread;
         if(_keep_going) return;
         _keep_going = true;
-        _thread = std::thread(&Process::processContinually, this);
+        _thread = new std::thread(&Process::processContinually, this);
     }
 
     void stopProcessingContinually(){
         _keep_going = false;
-        _thread.join();
+        _cv_out.notify_all();
+        if(_thread != nullptr){
+            if(std::this_thread::get_id() != _thread->get_id()) _thread->join();
+        }
     }
 
     bool keepGoing(){return _keep_going;}
@@ -99,7 +105,21 @@ class Process{
     std::condition_variable _cv_out;
 
     // The thread where the processing is done
-    std::thread _thread;
+    std::thread *_thread = nullptr;
+    std::exception_ptr thread_exception = nullptr;
+    // Returns true if the Process has been aborted
+    bool process_aborted(){return thread_exception!=nullptr;}
+    // ProcessOnce(), only safe
+    void processOnce_s(){
+        try{
+            processOnce();
+        }
+        catch(std::exception e){ // Fail gracefully
+            std::cerr << "Pipeline process failed with exception: " << e.what() << std::endl;
+            thread_exception = std::current_exception();
+            stopProcessingContinually();
+        }
+    }
 
 }; // end class Process
 
